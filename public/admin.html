@@ -16,7 +16,7 @@
         background-color: #f4f6f8;
       }
 
-      h1 {
+      h1, h2 {
         text-align: center;
         color: #2c3e50;
       }
@@ -62,14 +62,8 @@
         background-color: #2980b9;
       }
 
-      h2 {
-        text-align: center;
-        color: #34495e;
-        margin-top: 40px;
-      }
-
       #listJadwal {
-        max-width: 800px;
+        max-width: 1000px;
         margin: 0 auto;
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -79,7 +73,7 @@
 
       .jadwal-card {
         background: #fff;
-        padding: 15px 20px;
+        padding: 20px;
         border-radius: 10px;
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
         border-left: 5px solid #3498db;
@@ -97,11 +91,11 @@
       }
 
       .jadwal-card p {
-        margin: 4px 0;
+        margin: 5px 0;
         color: #555;
       }
 
-      .jadwal-card .actions {
+      .actions {
         margin-top: 10px;
       }
 
@@ -144,11 +138,11 @@
       <label for="jam">Jam:</label>
       <input type="time" id="jam" required />
 
-      <label for="mapel">Mata Pelajaran:</label>
-      <input type="text" id="mapel" placeholder="Contoh: Matematika" required />
-
       <label for="kelas">Kelas:</label>
       <input type="text" id="kelas" placeholder="Contoh: X IPA 2" required />
+
+      <label for="mapel">Mata Pelajaran:</label>
+      <input type="text" id="mapel" placeholder="Contoh: Matematika" required />
 
       <label for="link">Link Kelas (Opsional):</label>
       <input type="url" id="link" placeholder="https://meet.google.com/xyz" />

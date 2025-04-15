@@ -1,3 +1,35 @@
 update:
 1.tambahkan nama kelasnya
 2. untuk link nya itu tidak wajib jd tidak harus di isi karna bisa saja offline tidak selalu online
+
+strukture:
+/Jadwal
+  /node_modules
+  /public
+    - admin.html
+    - admin.js
+    - style.css
+    - script.js
+    - admin.html
+    - admin.js
+    - style.css
+  jadwal.json
+  server.js
+  index.html
+  redme.ed
+  package-lock.json
+  package.json  itu ful strulturnya
+
+  struktur : 
+  /Jadwal
+  /public
+    - admin.html
+    - admin.js
+    - style.css
+    - ...
+  /api
+    - db.php
+    - tambah_jadwal.php
+    - ambil_jadwal.php
+    - edit_jadwal.php
+    - hapus_jadwal.php

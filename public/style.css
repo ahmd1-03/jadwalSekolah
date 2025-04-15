@@ -1,30 +1,123 @@
-body {
-  font-family: sans-serif;
-  background-color: #f9f9f9;
-  padding: 20px;
-}
-
-.container {
-  max-width: 600px;
-  margin: auto;
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-h1 {
-  text-align: center;
-}
-
-ul {
-  list-style-type: none;
+/* Reset dasar */
+* {
+  margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
-li {
-  padding: 8px;
-  margin-bottom: 8px;
-  background: #f0f0f0;
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+  color: #333;
+  padding: 20px;
+}
+
+h1,
+h2 {
+  text-align: center;
+  color: #333;
+}
+
+/* Form styling */
+form {
+  background-color: #fff;
+  padding: 20px;
   border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+form label {
+  display: block;
+  margin: 8px 0;
+  font-weight: bold;
+}
+
+form input,
+form select,
+form button {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0 12px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+form button {
+  background-color: #5cb85c;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+form button:hover {
+  background-color: #4cae4c;
+}
+
+/* Styling untuk daftar jadwal */
+#listJadwal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+}
+
+.card-jadwal {
+  background-color: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 250px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.card-jadwal:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card-jadwal strong {
+  font-size: 18px;
+  color: #333;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.card-jadwal span {
+  font-size: 14px;
+  color: #555;
+}
+
+.card-jadwal a {
+  display: inline-block;
+  margin-top: 10px;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.card-jadwal a:hover {
+  text-decoration: underline;
+}
+
+.card-jadwal button {
+  background-color: #d9534f;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.card-jadwal button:hover {
+  background-color: #c9302c;
+}
+
+.card-jadwal button:last-child {
+  background-color: #5bc0de;
+}
+
+.card-jadwal button:last-child:hover {
+  background-color: #31b0d5;
 }

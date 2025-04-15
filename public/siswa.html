@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jadwal Siswa</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    #cuaca, #kalender, #jadwal-hari-ini, #jadwal-mingguan {
+      max-width: 800px;
+      margin: 20px auto;
+    }
+    .card-jadwal {
+      background: #fff;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      border-left: 5px solid #3498db;
+    }
+    h2 {
+      color: #2c3e50;
+    }
+  </style>
+</head>
+<body>
+  <h1 style="text-align: center;">📚 Jadwal Sekolah</h1>
+
+  <div id="kalender">
+    📅 Hari ini: <span id="tanggal"></span>
+  </div>
+
+  <div id="cuaca">
+    🌤️ Cuaca hari ini: <span id="info-cuaca">Memuat...</span>
+  </div>
+
+  <div id="jadwal-hari-ini">
+    <h2>Jadwal Hari Ini</h2>
+    <div id="jadwal-hari"></div>
+  </div>
+
+  <div id="jadwal-mingguan">
+    <h2>Jadwal Mingguan</h2>
+    <div id="semua-jadwal"></div>
+  </div>
+
+  <script src="siswa.js"></script>
+</body>
+</html>

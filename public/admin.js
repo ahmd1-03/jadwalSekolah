@@ -2,120 +2,109 @@ const form = document.getElementById("formJadwal");
 const listJadwal = document.getElementById("listJadwal");
 const selectHari = document.getElementById("hari");
 
-// Tambah atau update (mode edit)
-let editIndex = -1;
-let editHari = "";
+let jadwalData = [];
+let editId = null;
 
-// Saat memilih hari, tampilkan jadwal
 selectHari.addEventListener("change", () => {
   tampilkanJadwal(selectHari.value);
 });
 
-// Saat form disubmit
 form.addEventListener("submit", (e) => {
   e.preventDefault();
 
   const hari = document.getElementById("hari").value;
   const jam = document.getElementById("jam").value;
-  const mapel = document.getElementById("mapel").value;
   const kelas = document.getElementById("kelas").value;
+  const mapel = document.getElementById("mapel").value;
   const link = document.getElementById("link").value;
 
-  if (!hari || !jam || !mapel || !kelas) {
-    alert("Lengkapi semua kolom wajib!");
+  if (!hari || !jam || !kelas || !mapel) {
+    alert("Hari, Jam, Kelas, dan Mata Pelajaran wajib diisi.");
     return;
   }
 
-  const jadwal = ambilJadwal();
-  if (!jadwal[hari]) jadwal[hari] = [];
+  const data = { hari, jam, kelas, mapel, link };
 
-  const dataBaru = { jam, mapel, kelas, link };
-
-  if (editIndex !== -1) {
-    // Edit mode
-    jadwal[editHari][editIndex] = dataBaru;
-    editIndex = -1;
-    editHari = "";
+  if (editId) {
+    data.id = editId;
+    fetch("../api/edit_jadwal.php", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    }).then(() => {
+      editId = null;
+      form.reset();
+      tampilkanJadwal(hari);
+    });
   } else {
-    // Tambah data baru
-    jadwal[hari].push(dataBaru);
+    fetch("../api/tambah_jadwal.php", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    }).then(() => {
+      form.reset();
+      tampilkanJadwal(hari);
+    });
   }
-
-  simpanJadwal(jadwal);
-  tampilkanJadwal(hari);
-  form.reset();
 });
 
-// Ambil dari localStorage
-function ambilJadwal() {
-  return JSON.parse(localStorage.getItem("jadwalSekolah")) || {};
-}
-
-// Simpan ke localStorage
-function simpanJadwal(data) {
-  localStorage.setItem("jadwalSekolah", JSON.stringify(data));
-}
-
-// Tampilkan semua jadwal dari hari yang dipilih
 function tampilkanJadwal(hari) {
-  const jadwal = ambilJadwal();
-  const hariJadwal = jadwal[hari] || [];
+  fetch(`../api/ambil_jadwal.php?hari=${hari}`)
+    .then((res) => res.json())
+    .then((data) => {
+      jadwalData = data;
+      if (data.length === 0) {
+        listJadwal.innerHTML = "<p>Tidak ada jadwal untuk hari ini.</p>";
+        return;
+      }
 
-  if (hariJadwal.length === 0) {
-    listJadwal.innerHTML = "<p>Belum ada jadwal.</p>";
-    return;
+      listJadwal.innerHTML = "";
+      data.forEach((item) => {
+        const card = document.createElement("div");
+        card.className = "jadwal-card";
+        card.innerHTML = `
+          <h3>${item.mapel}</h3>
+          <p><strong>Jam:</strong> ${item.jam}</p>
+          <p><strong>Kelas:</strong> ${item.kelas}</p>
+          ${
+            item.link
+              ? `<p><a href="${item.link}" target="_blank">🔗 Link</a></p>`
+              : ""
+          }
+          <div class="actions">
+            <button class="edit-btn" onclick="editJadwal(${
+              item.id
+            })">Edit</button>
+            <button class="delete-btn" onclick="hapusJadwal(${
+              item.id
+            })">Hapus</button>
+          </div>
+        `;
+        listJadwal.appendChild(card);
+      });
+    });
+}
+
+window.editJadwal = function (id) {
+  const item = jadwalData.find((j) => j.id == id);
+  if (!item) return;
+
+  document.getElementById("jam").value = item.jam;
+  document.getElementById("kelas").value = item.kelas;
+  document.getElementById("mapel").value = item.mapel;
+  document.getElementById("link").value = item.link || "";
+  selectHari.value = item.hari;
+  editId = id;
+};
+
+window.hapusJadwal = function (id) {
+  if (confirm("Yakin ingin menghapus jadwal ini?")) {
+    fetch(`../api/hapus_jadwal.php?id=${id}`).then(() =>
+      tampilkanJadwal(selectHari.value)
+    );
   }
+};
 
-  let html = "";
-  hariJadwal.forEach((item, index) => {
-    html += `
-      <div class="jadwal-card">
-        <p><strong>Jam:</strong> ${item.jam}</p>
-        <p><strong>Kelas:</strong> ${item.kelas}</p>
-        <p><strong>Mata Pelajaran:</strong> ${item.mapel}</p>
-        ${
-          item.link
-            ? `<p><strong>Link:</strong> <a href="${item.link}" target="_blank">Buka</a></p>`
-            : `<p><strong>Link:</strong> <em>Tidak ada</em></p>`
-        }
-        <div class="actions">
-          <button class="edit-btn" onclick="editJadwal('${hari}', ${index})">Edit</button>
-          <button class="delete-btn" onclick="hapusJadwal('${hari}', ${index})">Hapus</button>
-        </div>
-      </div>
-    `;
-  });
-
-  listJadwal.innerHTML = html;
-}
-
-// Hapus jadwal
-function hapusJadwal(hari, index) {
-  const jadwal = ambilJadwal();
-  if (!jadwal[hari]) return;
-
-  jadwal[hari].splice(index, 1);
-  simpanJadwal(jadwal);
-  tampilkanJadwal(hari);
-}
-
-// Edit jadwal
-function editJadwal(hari, index) {
-  const jadwal = ambilJadwal();
-  const data = jadwal[hari][index];
-
-  document.getElementById("hari").value = hari;
-  document.getElementById("jam").value = data.jam;
-  document.getElementById("mapel").value = data.mapel;
-  document.getElementById("kelas").value = data.kelas;
-  document.getElementById("link").value = data.link || "";
-
-  editIndex = index;
-  editHari = hari;
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}
-
-// Load awal
 window.addEventListener("DOMContentLoaded", () => {
-  tampilkanJadwal(selectHari.value);
+  tampilkanJadwal(selectHari.value || "senin");
 });
